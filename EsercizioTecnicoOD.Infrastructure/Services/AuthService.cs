@@ -20,6 +20,11 @@ namespace EsercizioTecnicoOD.Infrastructure.Services
 
         public string GetApiKey()
         {
+            if (string.IsNullOrWhiteSpace(_settings.ApiKey))
+            {
+                throw new Exception("API Key non configurata.");
+            }
+
             return _settings.ApiKey;
         }
     }

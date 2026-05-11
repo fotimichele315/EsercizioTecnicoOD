@@ -21,12 +21,12 @@ app.MapGet("/api/commesse", (HttpRequest request) =>
     var xml = """
     <Commesse>
       <Commessa>
-        <Id>COM-002</Id>
+        <Id>COM-004</Id>
         <Jobs>
           <Job>
-            <Id>J-1002</Id>
+            <Id>J-1004</Id>
             <Item>
-              <Id>I-02</Id>
+              <Id>I-04</Id>
               <Tipo>Cintura</Tipo>
               <Colore>Nero</Colore>
               <Taglia>M</Taglia>

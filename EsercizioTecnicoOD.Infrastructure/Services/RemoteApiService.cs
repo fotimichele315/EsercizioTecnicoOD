@@ -1,4 +1,4 @@
-﻿ using EsercizioTecnicoOD.Core.Interfaces;
+﻿using EsercizioTecnicoOD.Core.Interfaces;
 
 namespace EsercizioTecnicoOD.Infrastructure.Services;
 
@@ -13,16 +13,35 @@ public class RemoteApiService : IRemoteApiService
 
     public async Task<string> GetXmlAsync(string apiKey)
     {
-        var request = new HttpRequestMessage(
-            HttpMethod.Get,
-            "http://localhost:5226/api/commesse");
+        try
+        {
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                "http://localhost:5226/api/commesse");
 
-        request.Headers.Add("X-API-KEY", apiKey);
+            request.Headers.Add("X-API-KEY", apiKey);
 
-        var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.SendAsync(request);
 
-        response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                var statusCode = (int)response.StatusCode;
 
-        return await response.Content.ReadAsStringAsync();
+                throw new Exception(
+                    $"Errore chiamata API remota. Status code: {statusCode}");
+            }
+
+            return await response.Content.ReadAsStringAsync();
+        } catch (HttpRequestException ex)
+        {
+            throw new Exception(
+                "Errore di comunicazione con la API remota.",
+                ex);
+        } catch (TaskCanceledException ex)
+        {
+            throw new Exception(
+                "Timeout nella chiamata alla API remota.",
+                ex);
+        }
     }
 }

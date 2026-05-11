@@ -16,7 +16,13 @@ public class PersistenceService : IPersistenceService
 
     public async Task SaveCommesseAsync(Commesse commesse)
     {
+        if (commesse == null)
+        {
+            throw new ArgumentNullException(nameof(commesse));
+        }
+
         _context.Commesse.AddRange(commesse.Items);
+
         await _context.SaveChangesAsync();
     }
 }

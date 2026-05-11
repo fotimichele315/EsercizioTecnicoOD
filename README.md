@@ -163,21 +163,16 @@ oppure
 
 
 Il progetto utilizza MySQL. È possibile utilizzare:
-- MySQL tramite Docker (configurazione consigliata) 
-- oppure installazione locale 
+1) MySQL tramite Docker (configurazione consigliata) 
+2) oppure installazione MySQL locale
 
-In caso di MySQL locale, aggiornare la connection string nel progetto:
 
-```csharp
-server=localhost;
-port=3306;
-database=esercitazioneod_db;
-user=<utente>;
-password=<password>
-```
+1) Avvio MySQL tramite Docker.
 
-Avvio tramite Docker
-Dalla root della solution:
+
+Avviare Docker (Docker Desktop o alternativa equivalente).
+
+Dalla root della solution (dove si trova docker-compose.yml):
 
 
 ```bash
@@ -188,6 +183,14 @@ Verificare container attivo:
 
 ```bash
 docker ps
+```
+
+2) Avvio MySQL tramite installazione locale
+
+Aggiornare la connection string nel progetto:
+
+```csharp
+server=localhost;port=3306;database=esercitazioneod_db;user=<utente>;password=<password>
 ```
 
 ---
