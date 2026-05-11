@@ -157,7 +157,7 @@ oppure
 - una istanza locale del database MySQL 
 ---
 
-### Avvio applicazione
+### Istruzioni per l'esecuzione
 
 #### 1. Avvio database MySQL
 
