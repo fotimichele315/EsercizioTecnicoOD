@@ -9,6 +9,6 @@ namespace EsercizioTecnicoOD.Core.Interfaces
 {
     public interface IPersistenceService
     {
-        Task SaveAsync(Commesse commesse);
+        Task SaveCommesseAsync(Commesse commesse);
     }
 }

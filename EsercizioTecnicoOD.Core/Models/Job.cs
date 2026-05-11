@@ -9,11 +9,10 @@ namespace EsercizioTecnicoOD.Core.Models
     public class Job
     {
         public string Id { get; set; } = string.Empty;
-
-        public Item Item { get; set; } = new();
-
+        public string CommessaId { get; set; } = string.Empty;
+        public Commessa Commessa { get; set; } = null!;
+        public Item Item { get; set; } = null!;
         public string FaseDiLavorazione { get; set; } = string.Empty;
-
         public string StatoAvanzamento { get; set; } = string.Empty;
     }
 }

@@ -4,7 +4,7 @@ builder.Services.AddEndpointsApiExplorer();
  
 var app = builder.Build();
 
-const string ApiKey = "my-secret-key";
+const string ApiKey = "my-dev-secret-key";
 
 app.MapGet("/api/commesse", (HttpRequest request) =>
 {
@@ -21,12 +21,12 @@ app.MapGet("/api/commesse", (HttpRequest request) =>
     var xml = """
     <Commesse>
       <Commessa>
-        <Id>COM-001</Id>
+        <Id>COM-002</Id>
         <Jobs>
           <Job>
-            <Id>J-1001</Id>
+            <Id>J-1002</Id>
             <Item>
-              <Id>I-01</Id>
+              <Id>I-02</Id>
               <Tipo>Cintura</Tipo>
               <Colore>Nero</Colore>
               <Taglia>M</Taglia>

@@ -9,7 +9,6 @@ namespace EsercizioTecnicoOD.Core.Models
     public class Commessa
     {
         public string Id { get; set; } = string.Empty;
-
         public List<Job> Jobs { get; set; } = new();
     }
 }

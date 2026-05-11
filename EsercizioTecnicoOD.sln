@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4 d17.14
+VisualStudioVersion = 17.14.36811.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsercizioTecnicoOD.Console", "EsercizioTecnicoOD.Console\EsercizioTecnicoOD.Console.csproj", "{514F6C7F-95DF-4118-8764-AA9F0A13DDE6}"
 EndProject
@@ -11,7 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsercizioTecnicoOD.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsercizioTecnicoOD.MockApi", "EsercizioTecnicoOD.MockApi\EsercizioTecnicoOD.MockApi.csproj", "{7F3713A4-1C8F-4AFD-8AA7-8F209C26E6B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsercizioTecnicoOD.Tests", "EsercizioTecnicoOD.Tests\EsercizioTecnicoOD.Tests.csproj", "{C79E571E-1874-443B-A2D9-4EFF8FC85662}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +38,6 @@ Global
 		{7F3713A4-1C8F-4AFD-8AA7-8F209C26E6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F3713A4-1C8F-4AFD-8AA7-8F209C26E6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F3713A4-1C8F-4AFD-8AA7-8F209C26E6B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C79E571E-1874-443B-A2D9-4EFF8FC85662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C79E571E-1874-443B-A2D9-4EFF8FC85662}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C79E571E-1874-443B-A2D9-4EFF8FC85662}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C79E571E-1874-443B-A2D9-4EFF8FC85662}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
