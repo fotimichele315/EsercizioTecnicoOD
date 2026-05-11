@@ -1,58 +1,118 @@
-# Esercizio Tecnico OD - .NET Application
+# Esercizio Tecnico OD 
 
 ## Descrizione del progetto
 
-Applicazione sviluppata in .NET con architettura multilivello per la gestione di “Commesse”, “Jobs” e “Items”, partendo da un file XML e persistendo i dati su database MySQL tramite Entity Framework Core.
+L’applicazione è sviluppata in .NET con architettura multilivello per la gestione di “Commesse”, “Jobs” e “Items”, a partire da un file XML e con persistenza su database MySQL tramite Entity Framework Core.
 
-Il progetto simula un flusso reale di integrazione tra:
-- API esterna (Mock)
-- Parsing XML
-- Logica applicativa
-- Persistenza su database
-
----
-
-## Architettura della soluzione
-
-La soluzione è composta da 5 progetti:
-
-- **EsercizioTecnicoOD.Core**
-  - Entità di dominio (Commessa, Job, Item)
-  - Interfacce dei servizi
-
-- **EsercizioTecnicoOD.Infrastructure**
-  - Implementazione servizi
-  - DbContext EF Core
-  - Persistence layer
-
-- **EsercizioTecnicoOD.Console**
-  - Entry point applicazione
-  - Dependency Injection
-  - Orchestrazione flusso
-
-- **Mock API**
-  - Endpoint XML
-  - Validazione API Key
-
-- **Database MySQL **
-  - Persistenza dati
+Il sistema simula un flusso di integrazione con un servizio esterno, composto da:
+- chiamata HTTP verso una Mock API
+- autenticazione tramite API Key
+- recupero dati in formato XML
+- parsing e deserializzazione dei dati
+- persistenza su database relazionale
 
 ---
 
-## Modellazione database
+L’architettura è basata su una Console Application utilizzata come client principale e su librerie .NET separate (Core e Infrastructure) per garantire una chiara separazione delle responsabilità.
 
-### Tabelle
+---
 
-**Commesse**
+L’intera infrastruttura può essere eseguita tramite container Docker, inclusa la componente database, garantendo portabilità e semplicità di esecuzione. In alternativa, è possibile utilizzare un’istanza locale di MySQL già installata sul sistema.
+
+---
+
+Il progetto è stato sviluppato in riferimento ai requisiti del documento “Esercizio_Tecnico_Foti-1.docx”.
+
+
+## Struttura della soluzione
+
+La soluzione è composta da più progetti .NET con responsabilità separate:
+
+- **EsercizioTecnicoOD.Console** → Client principale (entry point)
+- **EsercizioTecnicoOD.Core** → Modelli e interfacce
+- **EsercizioTecnicoOD.Infrastructure** → Implementazioni tecniche (HTTP, DB, XML)
+- **EsercizioTecnicoOD.MockApi** → API remota simulata
+- **docker-compose.yml** → Infrastruttura (MySQL)
+
+---
+
+### Componenti della soluzione
+
+#### 1) Console App (Client principale)
+
+- Punto di ingresso dell’applicazione
+- Avvia il workflow applicativo
+- Orchestrazione dei servizi
+- Gestione del flusso completo del processo
+
+---
+
+#### 2) Progetto Core
+
+Contiene il dominio applicativo:
+
+- Modelli dati
+- Interfacce dei servizi
+
+Servizi definiti:
+
+- `IAuthService`
+- `IRemoteApiService`
+- `IXmlParserService`
+- `IPersistenceService`
+
+---
+
+#### 3) Progetto Infrastructure
+
+Contiene le implementazioni concrete dei servizi:
+
+- `AuthService` → autenticazione tramite API Key
+- `RemoteApiService` → chiamate HTTP verso Mock API
+- `XmlParserService` → parsing XML
+- `PersistenceService` → accesso al database MySQL tramite Entity Framework Core
+
+---
+
+#### 4) Progetto Mock API
+
+- ASP.NET Core Minimal API che simula un sistema esterno
+- Espone un singolo endpoint HTTP
+- Gestisce autenticazione tramite API Key (header `X-API-KEY`)
+- Restituisce un oggetto XML come risposta
+
+---
+
+#### 5) Infrastruttura Docker
+
+La soluzione utilizza Docker Compose per la gestione del database MySQL.
+
+
+
+---
+
+## Modellazione del database
+
+Il modello dati è stato progettato a partire dalla struttura XML fornita.
+
+---
+
+### Entità principali
+
+#### Commessa (tabella Commesse)
 - Id (PK)
 
-**Jobs**
+---
+
+#### Job (tabella Jobs)
 - Id (PK)
 - CommessaId (FK → Commesse)
 - FaseDiLavorazione
 - StatoAvanzamento
 
-**Items**
+---
+
+#### Item (tabella Items)
 - Id (PK)
 - JobId (FK → Jobs)
 - Tipo
@@ -64,85 +124,67 @@ La soluzione è composta da 5 progetti:
 
 ### Relazioni
 
-- Commessa → Jobs (1:N)
-- Job → Item (1:1)
+- Una Commessa può contenere uno o più Job (relazione 1:N)
+- Un Job appartiene ad una sola Commessa
+- Un Job è associato ad un singolo Item e un Item appartiene ad un solo Job (relazione 1:1)
 
 ---
 
-### Vincoli
+### Vincoli e regole di integrità
 
-- Foreign Key con Cascade Delete
-- Indici sulle FK
-- Schema generato tramite EF Core Migrations (Code First)
+- Le chiavi primarie sono di tipo stringa (ID univoci)
+- Le relazioni sono implementate tramite chiavi esterne con vincolo di integrità referenziale
+- È previsto il cascade delete tra:
+  - Commessa → Job
+  - Job → Item
 
 ---
 
-## Docker (MySQL)
+### Implementazione
 
-```yaml
-version: '3.8'
-
-services:
-
-  mysql:
-    image: mysql:8.0
-    container_name: EsercizioTecnicood-mysql
-
-    environment:
-      MYSQL_ROOT_PASSWORD: dev_root_password
-      MYSQL_DATABASE: EsercizioTecnicood_db
-      MYSQL_USER: EsercizioTecnicood_user
-      MYSQL_PASSWORD: dev_password
-
-    ports:
-      - "3306:3306"
-
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-volumes:
-  mysql_data:
- ```
- 
- 
- ---
+Il modello è stato implementato tramite Entity Framework Core Code First, utilizzando migrations per la generazione dello schema fisico del database.
   
   
-  ## Prerequisiti
+  
+   ## Istruzioni di avvio 
+  
+  ### Prerequisiti
 
 - .NET 8 SDK
-- Docker Desktop (o alternativa equivalente).  
-  In locale il database MySQL è stato eseguito tramite Docker Engine installato su Ubuntu (WSL2).
-
+- Docker Desktop (o alternativa equivalente)
+In locale il database MySQL è stato eseguito tramite Docker Engine installato su Ubuntu (WSL2)
+oppure 
+- una istanza locale del database MySQL 
 ---
 
-## Istruzioni di avvio
+### Avvio applicazione
 
-### 1. Avviare il database MySQL
+#### 1. Avvio database MySQL
 
 
 Il progetto utilizza MySQL. È possibile utilizzare:
-
-- MySQL tramite Docker (configurazione consigliata)
-- oppure una installazione MySQL locale
+- MySQL tramite Docker (configurazione consigliata) 
+- oppure installazione locale 
 
 In caso di MySQL locale, aggiornare la connection string nel progetto:
 
 ```csharp
 server=localhost;
 port=3306;
-database=EsercizioTecnicood_db;
+database=esercitazioneod_db;
 user=<utente>;
 password=<password>
 ```
 
-In caso di uso di Docker, eseguire dalla root della solution:
+Avvio tramite Docker
+Dalla root della solution:
+
 
 ```bash
 docker compose up -d
 ```
 
-Verificare che il container sia attivo:
+Verificare container attivo:
 
 ```bash
 docker ps
@@ -150,7 +192,7 @@ docker ps
 
 ---
 
-### 2. Avviare la Mock API
+#### 2. Avvio Mock API
 
 In un nuovo terminale:
 
@@ -160,73 +202,25 @@ dotnet run --project .\EsercizioTecnicoOD.MockApi
 
 ---
 
-### 3. Applicare le migration Entity Framework Core
+#### 3. Inizializzazione database
 
-Dalla root della solution:
+È possibile scegliere una delle seguenti modalità:
 
+- Entity Framework Core
 ```bash
 dotnet ef database update --project .\EsercizioTecnicoOD.Infrastructure --startup-project .\EsercizioTecnicoOD.Console
 ```
 
----
-
-### 4. Avviare l'applicazione principale
-
-In un nuovo terminale:
-
-```bash
-dotnet run --project .\EsercizioTecnicoOD.Console
-```
-
----
-
-### 5. Verifica dati su database 
-
-Accesso al database MySQL nel container:
-
-```bash
-docker exec -it EsercizioTecnicood-mysql mysql -u EsercizioTecnicood_user -p
-```
-
-Password:
-
-```text
-dev_password
-```
-
-Query di verifica:
+- Script SQL
+In alternativa, eseguire lo script di inizializzazione
 
 ```sql
-USE EsercizioTecnicood_db;
-SHOW TABLES;
-
-SELECT * FROM Commesse;
-SELECT * FROM Jobs;
-SELECT * FROM Items;
-```
-
-
----
-
-## Creazione manuale database MySQL (alternativa a EF Core)
-
-In alternativa alle Entity Framework Core Migrations, è possibile creare manualmente il database eseguendo il seguente script SQL.
-
-### 1. Creazione database
-
-```sql
-CREATE DATABASE IF NOT EXISTS EsercizioTecnicood_db
+CREATE DATABASE IF NOT EXISTS esercitazioneod_db
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
-USE EsercizioTecnicood_db;
-```
+USE esercitazioneod_db;
 
----
-
-### 2. Creazione tabelle
-
-```sql
 CREATE TABLE `Commesse` (
     `Id` varchar(255) NOT NULL,
     PRIMARY KEY (`Id`)
@@ -268,3 +262,32 @@ ON `Items` (`JobId`);
 CREATE INDEX `IX_Jobs_CommessaId`
 ON `Jobs` (`CommessaId`);
 ```
+
+---
+
+#### 4. Avvio applicazione principale
+
+Eseguire:
+
+```bash
+dotnet run --project .\EsercizioTecnicoOD.Console
+```
+
+---
+
+#### 5. Accesso al database MySQL nel container:(opzionale)
+
+
+```bash
+docker exec -it esercitazioneod-mysql mysql -u esercitazioneod_user -p
+```
+
+Password:
+
+```text
+dev_password
+```
+
+
+
+ 

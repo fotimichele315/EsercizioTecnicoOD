@@ -8,7 +8,6 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        // 🔥 IMPORTANTE: NON serve Docker qui
         var connectionString =
             "server=localhost;port=3306;database=esercitazioneod_db;user=esercitazioneod_user;password=dev_password";
 
