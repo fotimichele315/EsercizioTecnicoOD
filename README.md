@@ -152,7 +152,6 @@ Il modello è stato implementato tramite Entity Framework Core Code First, utili
 
 - .NET 8 SDK
 - Docker Desktop (o alternativa equivalente)
-In locale il database MySQL è stato eseguito tramite Docker Engine installato su Ubuntu (WSL2)
 oppure 
 - una istanza locale del database MySQL 
 ---
